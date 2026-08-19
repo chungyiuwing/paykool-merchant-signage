@@ -307,15 +307,32 @@ export default function Home() {
   };
 
   return (
-    <main className="signage-page min-h-screen bg-[#f7f4ec] text-[#161428]">
-      <div className="mx-auto grid min-h-screen max-w-[1280px] grid-cols-[86px_minmax(0,1fr)] overflow-hidden border-x border-[#161428]/10 bg-[#f7f4ec] lg:grid-cols-[118px_minmax(0,1fr)]">
-        <aside className="category-rail" aria-label="優惠分類">
-          <div className="rail-brand">
-            <img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="PayKool 商戶優惠展示" />
-            <span>PAY<br />KOOL</span>
+    <main className="signage-page text-[#161428]">
+      <div className="portrait-frame">
+        <section className="portrait-stage" aria-label="PayKool 現有客戶商戶優惠展示">
+          <header className="stage-header">
+            <div className="stage-mark">
+              <img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="PayKool 商戶優惠展示" />
+              <span>PAY<br />KOOL</span>
+            </div>
+            <div className="stage-title">
+              <p>PAYKOOL / MEMBER PERKS</p>
+              <h1>現有客戶專屬優惠</h1>
+              <span>撳品牌，即刻睇清楚點樣慳。</span>
+            </div>
+            <div className="stage-clock">
+              <Clock3 size={16} />
+              <span>{now.toLocaleTimeString("zh-HK", { hour: "2-digit", minute: "2-digit" })}</span>
+            </div>
+          </header>
+
+          <div className="stage-intro">
+            <span className="intro-action"><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> MEMBER ONLY</span>
+            <p><b>{offers.length}</b> 個商戶品牌 · 一觸即睇優惠</p>
+            <span>PAYKOOL PERKS / 01—04</span>
           </div>
-          <div className="rail-rule" />
-          <nav className="flex flex-col gap-2">
+
+          <nav className="portrait-categories" aria-label="商戶優惠分類">
             {categories.map((category) => {
               const Icon = category.icon;
               const isActive = activeCategory === category.id;
@@ -324,90 +341,48 @@ export default function Home() {
                   key={category.id}
                   type="button"
                   onClick={() => setActiveCategory(category.id)}
-                  className={`rail-category ${isActive ? "rail-category-active" : ""}`}
+                  className={`portrait-category ${isActive ? "portrait-category-active" : ""}`}
                   style={{ "--category-colour": category.colour } as React.CSSProperties}
                   aria-pressed={isActive}
                 >
-                  <span className="rail-marker">{category.marker}</span>
-                  <Icon size={20} strokeWidth={1.8} />
-                  <span className="rail-label">{category.label}</span>
+                  <span>{category.marker}</span><Icon size={16} strokeWidth={1.9} /><strong>{category.label}</strong>
                 </button>
               );
             })}
           </nav>
-          <div className="rail-bottom">
-            <img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" />
-            <span>TOUCH<br />TO<br />EXPLORE</span>
-            <ArrowRight size={18} />
-          </div>
-        </aside>
 
-        <section className="min-w-0 px-5 pb-8 pt-5 sm:px-8 sm:pb-10 sm:pt-7 lg:px-12">
-          <header className="flex items-start justify-between gap-4">
-            <div>
-              <p className="eyebrow">PAYKOOL / MEMBER PERKS</p>
-              <h1 className="mt-2 max-w-[620px] text-[clamp(2.25rem,5.3vw,4.7rem)] font-black leading-[0.92] tracking-[-0.075em]">
-                你嘅 PayKool 卡，<br />
-                今日有咩著數？
-              </h1>
+          <section className="logo-wall-section" aria-label="商戶標誌">
+            <div className="logo-wall-heading">
+              <p><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> {activeMeta.label}／{visibleOffers.length.toString().padStart(2, "0")} BRANDS</p>
+              <span><Ticket size={15} /> 點選商戶睇詳情</span>
             </div>
-            <div className="clock-card hidden shrink-0 sm:block">
-              <Clock3 size={17} />
-              <span>{now.toLocaleTimeString("zh-HK", { hour: "2-digit", minute: "2-digit" })}</span>
-            </div>
-          </header>
-
-          <section className="hero-exhibit mt-7" aria-label="優惠導覽介紹">
-            <div className="hero-copy">
-              <div className="hero-kicker"><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> MEMBER ONLY</div>
-              <p className="hero-lede">18 個現有客戶優惠，<br />由食、玩、買到出行一次過睇晒。</p>
-              <p className="hero-sub">揀個類別，再撳品牌，即刻睇清楚點樣慳。</p>
-              <div className="hero-index"><span>01—04</span><span><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> 優惠導覽</span></div>
-            </div>
-            <div className="hero-art" style={{ backgroundImage: "url('/manus-storage/paykool-signage-hero_97451cf8.jpg')" }} aria-hidden="true" />
-          </section>
-
-          <section className="offer-section" aria-label="商戶優惠">
-            <div className="section-heading">
-              <div>
-                <p className="section-index" style={{ color: activeMeta.colour }}><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> {activeMeta.marker}</p>
-                <h2>{activeMeta.label}</h2>
-                <p>{activeMeta.english} · {visibleOffers.length.toString().padStart(2, "0")} BRANDS</p>
-              </div>
-              <div className="section-note"><Ticket size={17} /> 點選品牌看詳情</div>
-            </div>
-
-            <div className="offer-grid">
+            <div
+              className="logo-wall"
+              style={{ gridTemplateRows: `repeat(${Math.ceil(visibleOffers.length / 4)}, minmax(0, 1fr))` }}
+            >
               {visibleOffers.map((offer, index) => {
                 const category = categories.find((item) => item.id === offer.category) ?? categories[0];
                 return (
                   <button
                     type="button"
-                    className="offer-card group"
+                    className="logo-tile"
                     key={offer.id}
                     onClick={() => setSelectedOffer(offer)}
-                    style={{ "--card-colour": category.colour, "--delay": `${index * 45}ms` } as React.CSSProperties}
+                    style={{ "--tile-colour": category.colour, "--delay": `${index * 35}ms` } as React.CSSProperties}
                   >
-                    <div className="offer-card-top">
-                      <div className="offer-card-plinth"><BrandMark offer={offer} /><span>{offer.categoryLabel}</span></div>
-                      <span className="offer-card-number">{String(index + 1).padStart(2, "0")}</span>
-                    </div>
-                    <div className="offer-card-body">
-                      <p className="offer-brand">{offer.brand}</p>
-                      <p className="offer-name">{offer.offer}</p>
-                    </div>
-                    <div className="offer-card-footer">
-                      <span><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> 睇詳情</span>
-                      <ArrowRight size={17} className="transition-transform duration-200 group-hover:translate-x-1" />
-                    </div>
+                    <span className="tile-corner" />
+                    <span className="tile-index">{String(index + 1).padStart(2, "0")}</span>
+                    <BrandMark offer={offer} large />
+                    <span className="tile-brand">{offer.brand}</span>
+                    <span className="tile-category">{offer.categoryLabel}</span>
                   </button>
                 );
               })}
             </div>
           </section>
 
-          <footer className="signage-footer">
-            <p>優惠受商戶及 PayKool 條款約束；請以 PayKool App 內顯示之優惠券及詳情為準。</p>
+          <footer className="portrait-footer">
+            <p>優惠受商戶及 PayKool 條款約束；請以 PayKool App 顯示之優惠券及詳情為準。</p>
             <span>LAST CHECKED · 2026.08.19</span>
           </footer>
         </section>
