@@ -33,6 +33,7 @@ type Offer = {
   conditions: string;
   validUntil: string;
   logoDomain?: string;
+  logoUrl?: string;
   sourceUrl: string;
   note?: string;
 };
@@ -126,7 +127,7 @@ const offers: Offer[] = [
     highlight: "指定門店即減 HK$50",
     conditions: "在 App 登記或領取 Cardopia HK$50 優惠券；於指定門店單次消費滿 HK$500 使用。每次交易限一張，不適用於禮券及現金券。",
     validUntil: "2027.06.15",
-    logoDomain: "cardopia.shop",
+    logoUrl: "/manus-storage/cardopia-logo_433aae73.png",
     sourceUrl: "https://www.paykool.hk/promotions/mbcardo",
   },
   {
@@ -139,6 +140,7 @@ const offers: Offer[] = [
     highlight: "收藏卡牌即減 HK$50",
     conditions: "在 App 領取 HK$50 優惠券；於 Carder Toysnplace 指定門店單次簽帳滿 HK$1,000 使用。每次消費限一張，不適用於禮券及現金券。",
     validUntil: "2027.04.23",
+    logoUrl: "/manus-storage/carder-logo_45d43ab5.jpg",
     sourceUrl: "https://www.paykool.hk/promotions/cardertoysnplace",
   },
   {
@@ -266,18 +268,27 @@ const offers: Offer[] = [
 
 function BrandMark({ offer, large = false }: { offer: Offer; large?: boolean }) {
   const [imageFailed, setImageFailed] = useState(false);
-  const initials = offer.brand.replace(/[^A-Za-z0-9一-龥]/g, "").slice(0, 2).toUpperCase();
+  const englishWords = offer.brand.match(/[A-Za-z]+/g) ?? [];
+  const initials = englishWords.length > 1
+    ? englishWords.map((word) => word[0]).join("").slice(0, 2).toUpperCase()
+    : offer.brand.replace(/[^A-Za-z0-9一-龥]/g, "").slice(0, 2).toUpperCase();
+  const reliableFaviconDomains = new Set([
+    "cubuy.com.hk", "759store.com", "7-eleven.com.hk", "athome.com.hk", "jhc.com.hk", "onedegree.hk", "simsq.hk",
+  ]);
+  const logoSource = offer.logoUrl ?? (offer.logoDomain && reliableFaviconDomains.has(offer.logoDomain)
+    ? `https://www.google.com/s2/favicons?domain=${offer.logoDomain}&sz=128`
+    : undefined);
 
   return (
     <div className={`brand-mark ${large ? "brand-mark-large" : ""}`} aria-hidden="true">
-      {offer.logoDomain && !imageFailed ? (
+      {logoSource && !imageFailed ? (
         <img
-          src={`https://www.google.com/s2/favicons?domain=${offer.logoDomain}&sz=128`}
+          src={logoSource}
           alt=""
           onError={() => setImageFailed(true)}
         />
       ) : (
-        <span>{initials}</span>
+        <span className="brand-fallback">{offer.english ?? offer.brand ?? initials}</span>
       )}
     </div>
   );
@@ -312,8 +323,8 @@ export default function Home() {
         <section className="portrait-stage" aria-label="PayKool 現有客戶商戶優惠展示">
           <header className="stage-header">
             <div className="stage-mark">
-              <img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="PayKool 商戶優惠展示" />
-              <span>PAY<br />KOOL</span>
+              <img src="/manus-storage/paykool-official-logo_4655969b.png" alt="PayKool" />
+              <span>PayKool</span>
             </div>
             <div className="stage-title">
               <p>PAYKOOL / MEMBER PERKS</p>
@@ -358,7 +369,7 @@ export default function Home() {
             </div>
             <div
               className="logo-wall"
-              style={{ gridTemplateRows: `repeat(${Math.ceil(visibleOffers.length / 4)}, minmax(0, 1fr))` }}
+              style={{ gridTemplateRows: `repeat(${Math.ceil(visibleOffers.length / 3)}, minmax(0, 1fr))` }}
             >
               {visibleOffers.map((offer, index) => {
                 const category = categories.find((item) => item.id === offer.category) ?? categories[0];
