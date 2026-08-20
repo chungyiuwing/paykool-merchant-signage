@@ -52,7 +52,7 @@
   .logo-wall-heading p { display: inline-flex; align-items: center; gap: 5px; margin: 0; color: #c9eaff; font-family: "Space Grotesk", sans-serif; font-size: clamp(8px, 1cqw, 11px); font-weight: 700; letter-spacing: .08em; }
   .logo-wall-heading span { display: inline-flex; align-items: center; gap: 5px; color: #eadfff; font-size: clamp(8px, 1cqw, 11px); font-weight: 700; white-space: nowrap; }
   .logo-wall { display: grid; min-height: 0; flex: 1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-top: 8px; }
-  .logo-tile { position: relative; display: flex; min-height: 0; animation: tile-enter 420ms cubic-bezier(.23,1,.32,1) both; animation-delay: var(--delay); align-items: center; flex-direction: column; justify-content: center; overflow: hidden; border: 1px solid #dfe6ffcf; background: linear-gradient(155deg, #ffffff 0%, #e7eeff 100%); color: #15113e; padding: 12px 7px; text-align: center; transition: background 180ms cubic-bezier(.23,1,.32,1), color 180ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
+  .logo-tile { position: relative; display: flex; min-height: 0; animation: tile-enter 420ms cubic-bezier(.23,1,.32,1) both; animation-delay: var(--delay); align-items: center; flex-direction: column; justify-content: center; overflow: hidden; border: 1px solid #dfe6ffcf; background: linear-gradient(155deg, #ffffff 0%, #e7eeff 100%); color: #15113e; padding: clamp(12px, 1.8cqw, 22px) 7px; text-align: center; transition: background 180ms cubic-bezier(.23,1,.32,1), color 180ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
   .logo-tile::before { position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--tile-colour); content: ""; }
   .tile-corner { position: absolute; right: 0; top: 0; border-left: 17px solid transparent; border-top: 17px solid var(--tile-colour); }
   .logo-tile:hover { background: linear-gradient(145deg, #8c4dff, #1db5ec); color: #fff; box-shadow: 0 10px 24px #05001880; transform: translateY(-2px); }
@@ -62,10 +62,21 @@
   .brand-mark { display: grid; height: 32px; width: 32px; place-items: center; overflow: hidden; border: 1px solid #c2c9ee; background: #fff; color: #20125a; font-family: "Space Grotesk", sans-serif; font-size: 9px; font-weight: 700; }
   .brand-mark img { height: 100%; width: 100%; object-fit: contain; padding: 5px; }
   .brand-fallback { display: -webkit-box; max-width: 82%; overflow: hidden; color: #29165f; font-family: "Space Grotesk", "Noto Sans TC", sans-serif; font-size: clamp(9px, 1.05cqw, 13px); font-weight: 800; letter-spacing: -.08em; line-height: 1.05; text-align: center; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-  .brand-mark-large { height: clamp(64px, 8.2cqw, 108px); width: clamp(64px, 8.2cqw, 108px); }
-  .tile-brand { display: block; max-width: 92%; margin-top: 9px; font-size: clamp(11px, 1.5cqw, 18px); font-weight: 900; letter-spacing: -.06em; line-height: 1.08; }
-  .tile-category { display: block; margin-top: 5px; color: var(--tile-colour); font-size: clamp(8px, 1cqw, 12px); font-weight: 800; letter-spacing: -.06em; line-height: 1; }
+  .brand-mark-large { height: clamp(88px, 15cqw, 160px); width: clamp(88px, 15cqw, 160px); }
+  .tile-brand { display: block; max-width: 92%; margin-top: 13px; font-size: clamp(13px, 1.8cqw, 22px); font-weight: 900; letter-spacing: -.06em; line-height: 1.08; }
+  .tile-category { display: block; margin-top: 6px; color: var(--tile-colour); font-size: clamp(9px, 1.15cqw, 14px); font-weight: 800; letter-spacing: -.06em; line-height: 1; }
   .logo-tile:hover .tile-category { color: #d6fa3d; }
+  .brand-pager { display: grid; align-items: center; grid-template-columns: 38px 1fr auto 38px; gap: 10px; border-top: 1px solid #aba8ff70; margin-top: 9px; padding-top: 9px; }
+  .brand-page-arrow { display: grid; height: 34px; width: 34px; place-items: center; border: 1px solid #b9a4ff80; background: #ffffff10; color: #fff; transition: background 160ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
+  .brand-page-arrow:hover:not(:disabled) { background: #ffffff27; }
+  .brand-page-arrow:active:not(:disabled) { transform: scale(.96); }
+  .brand-page-arrow:disabled { cursor: not-allowed; opacity: .35; }
+  .brand-page-status { display: flex; align-items: baseline; gap: 8px; color: #d5d4ff; font-family: "Space Grotesk", sans-serif; }
+  .brand-page-status span { font-size: clamp(7px, .8cqw, 9px); font-weight: 700; letter-spacing: .11em; }
+  .brand-page-status strong { color: #fff; font-size: clamp(10px, 1.2cqw, 14px); letter-spacing: -.03em; }
+  .brand-page-dots { display: flex; align-items: center; gap: 5px; }
+  .brand-page-dots i { height: 5px; width: 5px; border-radius: 999px; background: #ffffff57; }
+  .brand-page-dots i.is-active { width: 17px; background: #8beeff; }
   .portrait-footer { display: flex; align-items: end; justify-content: space-between; gap: 12px; border-top: 1px solid #aba8ff70; margin-top: 10px; padding-top: 7px; color: #d5d4ff; font-size: clamp(7px, .8cqw, 10px); line-height: 1.4; }
   .portrait-footer p { margin: 0; max-width: 68%; }
   .portrait-footer span { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: .06em; white-space: nowrap; }

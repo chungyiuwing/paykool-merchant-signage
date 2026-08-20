@@ -1,7 +1,7 @@
 /**
- * Style reminder — Flowing Gallery Wayfinding:
- * New Swiss retail signage; warm paper-white space, indigo wayfinding lines,
- * yuzu-green action accents, oversized bilingual typography, and tactile exhibit labels.
+ * Style reminder — PayKool Portrait Kiosk:
+ * Deep indigo-violet internal screen, white outer surround, bright official mark,
+ * and large undistorted merchant logos that remain readable at a distance.
  */
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 type CategoryId = "all" | "food" | "retail" | "life" | "move";
+const LOGOS_PER_PAGE = 6;
 
 type Offer = {
   id: string;
@@ -298,6 +299,7 @@ function BrandMark({ offer, large = false }: { offer: Offer; large?: boolean }) 
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<CategoryId>("all");
+  const [brandPage, setBrandPage] = useState(0);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [now, setNow] = useState(new Date());
 
@@ -311,6 +313,10 @@ export default function Home() {
     [activeCategory],
   );
 
+  const pageCount = Math.max(1, Math.ceil(visibleOffers.length / LOGOS_PER_PAGE));
+  const currentPage = Math.min(brandPage, pageCount - 1);
+  const pageStart = currentPage * LOGOS_PER_PAGE;
+  const pagedOffers = visibleOffers.slice(pageStart, pageStart + LOGOS_PER_PAGE);
   const activeMeta = categories.find((category) => category.id === activeCategory) ?? categories[0];
   const selectedIndex = selectedOffer ? offers.findIndex((offer) => offer.id === selectedOffer.id) : -1;
   const browseOffer = (direction: -1 | 1) => {
@@ -353,7 +359,10 @@ export default function Home() {
                 <button
                   key={category.id}
                   type="button"
-                  onClick={() => setActiveCategory(category.id)}
+                  onClick={() => {
+                    setActiveCategory(category.id);
+                    setBrandPage(0);
+                  }}
                   className={`portrait-category ${isActive ? "portrait-category-active" : ""}`}
                   style={{ "--category-colour": category.colour } as React.CSSProperties}
                   aria-pressed={isActive}
@@ -367,13 +376,13 @@ export default function Home() {
           <section className="logo-wall-section" aria-label="商戶標誌">
             <div className="logo-wall-heading">
               <p><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> {activeMeta.label}／{visibleOffers.length.toString().padStart(2, "0")} BRANDS</p>
-              <span><Ticket size={15} /> 點選商戶睇詳情</span>
+              <span><Ticket size={15} /> 點選商戶睇詳情 · {currentPage + 1}/{pageCount}</span>
             </div>
             <div
               className="logo-wall"
-              style={{ gridTemplateRows: `repeat(${Math.ceil(visibleOffers.length / 3)}, minmax(0, 1fr))` }}
+              style={{ gridTemplateRows: "repeat(2, minmax(0, 1fr))" }}
             >
-              {visibleOffers.map((offer, index) => {
+              {pagedOffers.map((offer, index) => {
                 const category = categories.find((item) => item.id === offer.category) ?? categories[0];
                 return (
                   <button
@@ -384,7 +393,7 @@ export default function Home() {
                     style={{ "--tile-colour": category.colour, "--delay": `${index * 35}ms` } as React.CSSProperties}
                   >
                     <span className="tile-corner" />
-                    <span className="tile-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="tile-index">{String(pageStart + index + 1).padStart(2, "0")}</span>
                     <BrandMark offer={offer} large />
                     <span className="tile-brand">{offer.brand}</span>
                     <span className="tile-category">{offer.categoryLabel}</span>
@@ -392,6 +401,33 @@ export default function Home() {
                 );
               })}
             </div>
+            <nav className="brand-pager" aria-label="商戶標誌頁面">
+              <button
+                type="button"
+                className="brand-page-arrow"
+                onClick={() => setBrandPage((page) => (page - 1 + pageCount) % pageCount)}
+                disabled={pageCount === 1}
+                aria-label="上一頁商戶"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <div className="brand-page-status">
+                <span>BRAND PAGE</span>
+                <strong>{String(currentPage + 1).padStart(2, "0")} / {String(pageCount).padStart(2, "0")}</strong>
+              </div>
+              <div className="brand-page-dots" aria-hidden="true">
+                {Array.from({ length: pageCount }).map((_, index) => <i key={index} className={index === currentPage ? "is-active" : ""} />)}
+              </div>
+              <button
+                type="button"
+                className="brand-page-arrow"
+                onClick={() => setBrandPage((page) => (page + 1) % pageCount)}
+                disabled={pageCount === 1}
+                aria-label="下一頁商戶"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </nav>
           </section>
 
           <footer className="portrait-footer">
