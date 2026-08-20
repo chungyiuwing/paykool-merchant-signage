@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 type CategoryId = "all" | "food" | "retail" | "life" | "move";
+const featuredOfferIds = ["759", "seven", "adventure", "onedegree"] as const;
 
 type Offer = {
   id: string;
@@ -89,7 +90,7 @@ const offers: Offer[] = [
     highlight: "流動支付即減 HK$10",
     conditions: "僅限特選 PayKool 持卡人。先於 App 領取電子券，並於付款前出示；以 Apple Pay、Google Pay、Alipay 或微信支付等流動支付簽帳滿 HK$30。每位合資格持卡人最多一次。",
     validUntil: "2027.03.31",
-    logoDomain: "759store.com",
+    logoUrl: "/manus-storage/759-official-logo_7a61cdd8.png",
     sourceUrl: "https://www.paykool.hk/promotions/759",
   },
   {
@@ -306,10 +307,18 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const visibleOffers = useMemo(
-    () => (activeCategory === "all" ? offers : offers.filter((offer) => offer.category === activeCategory)),
-    [activeCategory],
-  );
+  const visibleOffers = useMemo(() => {
+    const filtered = activeCategory === "all" ? [...offers] : offers.filter((offer) => offer.category === activeCategory);
+    if (activeCategory !== "all") return filtered;
+
+    return filtered.sort((left, right) => {
+      const leftRank = featuredOfferIds.indexOf(left.id as (typeof featuredOfferIds)[number]);
+      const rightRank = featuredOfferIds.indexOf(right.id as (typeof featuredOfferIds)[number]);
+      const normalizedLeftRank = leftRank === -1 ? Number.MAX_SAFE_INTEGER : leftRank;
+      const normalizedRightRank = rightRank === -1 ? Number.MAX_SAFE_INTEGER : rightRank;
+      return normalizedLeftRank - normalizedRightRank;
+    });
+  }, [activeCategory]);
 
   const activeMeta = categories.find((category) => category.id === activeCategory) ?? categories[0];
   const selectedIndex = selectedOffer ? offers.findIndex((offer) => offer.id === selectedOffer.id) : -1;
@@ -375,7 +384,7 @@ export default function Home() {
                 return (
                   <button
                     type="button"
-                    className="logo-tile"
+                    className={`logo-tile ${featuredOfferIds.includes(offer.id as (typeof featuredOfferIds)[number]) ? "logo-tile-featured" : ""}`}
                     key={offer.id}
                     onClick={() => setSelectedOffer(offer)}
                     style={{ "--tile-colour": category.colour, "--delay": `${index * 35}ms` } as React.CSSProperties}
