@@ -41,9 +41,9 @@
   .stage-intro b { color: #7de7ff; font-family: "Space Grotesk", sans-serif; font-size: 1.25em; }
   .stage-intro > span:last-child { color: #d5c3ff; font-family: "Space Grotesk", sans-serif; font-size: clamp(7px, .85cqw, 10px); font-weight: 700; letter-spacing: .08em; white-space: nowrap; }
   .portrait-categories { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
-  .portrait-category { display: flex; min-width: 0; align-items: center; justify-content: center; gap: 4px; border: 1px solid #a890ff79; background: #ffffff10; color: #eee9ff; padding: 7px 3px; transition: background 180ms cubic-bezier(.23,1,.32,1), color 180ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
+  .portrait-category { display: flex; min-width: 0; align-content: center; align-items: center; flex-wrap: wrap; justify-content: center; gap: 2px 4px; border: 1px solid #a890ff79; background: #ffffff10; color: #eee9ff; padding: 6px 3px; transition: background 180ms cubic-bezier(.23,1,.32,1), color 180ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
   .portrait-category span { color: var(--category-colour); font-family: "Space Grotesk", sans-serif; font-size: 8px; font-weight: 700; }
-  .portrait-category strong { overflow: hidden; font-size: clamp(8px, 1cqw, 11px); font-weight: 800; letter-spacing: -.06em; text-overflow: ellipsis; white-space: nowrap; }
+  .portrait-category strong { display: block; flex-basis: 100%; overflow: visible; font-size: clamp(8px, 1cqw, 11px); font-weight: 800; letter-spacing: -.06em; line-height: 1.1; text-align: center; text-overflow: clip; white-space: normal; }
   .portrait-category:hover, .portrait-category-active { border-color: #9bfff8; background: linear-gradient(105deg, #5b23d9, #337bea); color: #fff; box-shadow: 0 0 16px #7d54ff73; }
   .portrait-category:hover span, .portrait-category-active span { color: #9bfff8; }
   .portrait-category:active { transform: scale(.97); }
