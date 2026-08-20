@@ -17,8 +17,8 @@ import {
   ShoppingBag,
   Sparkles,
   Ticket,
+  X,
 } from "lucide-react";
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 type CategoryId = "all" | "food" | "retail" | "life" | "move";
 
@@ -152,6 +152,7 @@ const offers: Offer[] = [
     highlight: "指定門店即減 HK$50",
     conditions: "在 App 領取 Card Buddies HK$50 優惠券；於指定門店單次簽帳滿 HK$1,000 使用。每次消費限一張，不適用於禮券及現金券。",
     validUntil: "2027.04.23",
+    logoUrl: "/manus-storage/card-buddies-logo_4a352a7e.jpg",
     sourceUrl: "https://www.paykool.hk/promotions/cardbuddies",
   },
   {
@@ -187,7 +188,7 @@ const offers: Offer[] = [
     highlight: "DEEN / ARSENAL 即享 95 折",
     conditions: "在 App 領取優惠券，於深水埗或觀塘指定門店購買 DEEN 或 ARSENAL 產品滿 HK$300，以 PayKool 卡付款。每次限一張，使用次數不限。",
     validUntil: "2027.03.24",
-    logoDomain: "makersoul.com.hk",
+    logoUrl: "/manus-storage/makersoul-logo_304ed715.jpg",
     sourceUrl: "https://www.paykool.hk/promotions/mbmakersoul",
   },
   {
@@ -237,6 +238,7 @@ const offers: Offer[] = [
     highlight: "首次購票即減 HK$20",
     conditions: "在 App 領取專屬連結並進入「巴士到站」微信小程序；首次購買永東跨境巴士單程票可用。每人一次，不適用於來回票、套票或其他路線。",
     validUntil: "2026.12.31",
+    logoUrl: "/manus-storage/bus-arrival-logo_54361110.jpg",
     sourceUrl: "https://www.paykool.hk/promotions/baygolungfung",
   },
   {
@@ -249,7 +251,7 @@ const offers: Offer[] = [
     highlight: "代幣優惠價，使用次數不限",
     conditions: "於香港任何冒險樂園分店以 PayKool 卡簽帳，可用優惠價 HK$600 購買 530 個代幣；不可與其他優惠同用。",
     validUntil: "2026.12.31",
-    logoDomain: "jumpingym.com.hk",
+    logoUrl: "/manus-storage/jumpin-gym-logo_6f67761a.png",
     sourceUrl: "https://www.paykool.hk/promotions/jumpingym",
   },
   {
@@ -399,22 +401,20 @@ export default function Home() {
         </section>
       </div>
 
-      <Sheet open={Boolean(selectedOffer)} onOpenChange={(open) => !open && setSelectedOffer(null)}>
-        <SheetContent side="bottom" className="detail-sheet border-0 bg-[#161428] p-0 text-[#f7f4ec]">
-          {selectedOffer && (
+      {selectedOffer && (
+        <div className="kiosk-detail-layer" role="dialog" aria-modal="true" aria-label={`${selectedOffer.brand} 優惠詳情`}>
+          <section className="kiosk-detail-panel">
             <div className="detail-wrap">
-              <SheetHeader className="detail-header">
+              <header className="detail-header">
                 <div className="detail-brand-line">
                   <BrandMark offer={selectedOffer} large />
                   <div>
-                    <p className="eyebrow text-[#d6fa3d]">{selectedOffer.categoryLabel}</p>
-                    <SheetTitle className="mt-1 text-2xl font-black tracking-[-0.055em] text-[#f7f4ec] sm:text-3xl">{selectedOffer.brand}</SheetTitle>
+                    <p className="detail-category">{selectedOffer.categoryLabel}</p>
+                    <h2>{selectedOffer.brand}</h2>
                   </div>
                 </div>
-                <SheetClose asChild>
-                  <button type="button" className="detail-back"><ArrowLeft size={18} /> 返回全部優惠</button>
-                </SheetClose>
-              </SheetHeader>
+                <button type="button" className="detail-back" onClick={() => setSelectedOffer(null)}><ArrowLeft size={18} /> 返回全部優惠</button>
+              </header>
 
               <div className="detail-content">
                 <div className="detail-main">
@@ -437,11 +437,12 @@ export default function Home() {
                 <button type="button" onClick={() => browseOffer(-1)}><ChevronLeft size={21} /> 上一個</button>
                 <span>{String(selectedIndex + 1).padStart(2, "0")} / {String(offers.length).padStart(2, "0")}</span>
                 <button type="button" onClick={() => browseOffer(1)}>下一個 <ChevronRight size={21} /></button>
+                <button type="button" className="detail-close-icon" onClick={() => setSelectedOffer(null)} aria-label="關閉詳情"><X size={18} /></button>
               </div>
             </div>
-          )}
-        </SheetContent>
-      </Sheet>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
