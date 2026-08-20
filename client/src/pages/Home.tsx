@@ -22,6 +22,22 @@ import {
 
 type CategoryId = "all" | "food" | "retail" | "life" | "move";
 const featuredOfferIds = ["759", "seven", "adventure", "onedegree"] as const;
+const assetUrl = (pagesFilename: string, manusStorageKey: string) => (
+  import.meta.env.BASE_URL === "/"
+    ? `/manus-storage/${manusStorageKey}`
+    : `${import.meta.env.BASE_URL}manus-storage/${pagesFilename}`
+);
+const brandAssets = {
+  paykoolLogo: assetUrl("paykool-official-logo.png", "paykool-official-logo_4655969b.png"),
+  paykoolMark: assetUrl("paykool-signage-mark.png", "paykool-signage-mark_575f147f.png"),
+  store759: assetUrl("759-official-logo.png", "759-official-logo_7a61cdd8.png"),
+  cardopia: assetUrl("cardopia-logo.png", "cardopia-logo_433aae73.png"),
+  carder: assetUrl("carder-logo.jpg", "carder-logo_45d43ab5.jpg"),
+  cardBuddies: assetUrl("card-buddies-logo.jpg", "card-buddies-logo_4a352a7e.jpg"),
+  makersoul: assetUrl("makersoul-logo.jpg", "makersoul-logo_304ed715.jpg"),
+  busArrival: assetUrl("bus-arrival-logo.jpg", "bus-arrival-logo_54361110.jpg"),
+  jumpinGym: assetUrl("jumpin-gym-logo.png", "jumpin-gym-logo_6f67761a.png"),
+};
 
 type Offer = {
   id: string;
@@ -90,7 +106,7 @@ const offers: Offer[] = [
     highlight: "流動支付即減 HK$10",
     conditions: "僅限特選 PayKool 持卡人。先於 App 領取電子券，並於付款前出示；以 Apple Pay、Google Pay、Alipay 或微信支付等流動支付簽帳滿 HK$30。每位合資格持卡人最多一次。",
     validUntil: "2027.03.31",
-    logoUrl: "/manus-storage/759-official-logo_7a61cdd8.png",
+    logoUrl: brandAssets.store759,
     sourceUrl: "https://www.paykool.hk/promotions/759",
   },
   {
@@ -128,7 +144,7 @@ const offers: Offer[] = [
     highlight: "指定門店即減 HK$50",
     conditions: "在 App 登記或領取 Cardopia HK$50 優惠券；於指定門店單次消費滿 HK$500 使用。每次交易限一張，不適用於禮券及現金券。",
     validUntil: "2027.06.15",
-    logoUrl: "/manus-storage/cardopia-logo_433aae73.png",
+    logoUrl: brandAssets.cardopia,
     sourceUrl: "https://www.paykool.hk/promotions/mbcardo",
   },
   {
@@ -141,7 +157,7 @@ const offers: Offer[] = [
     highlight: "收藏卡牌即減 HK$50",
     conditions: "在 App 領取 HK$50 優惠券；於 Carder Toysnplace 指定門店單次簽帳滿 HK$1,000 使用。每次消費限一張，不適用於禮券及現金券。",
     validUntil: "2027.04.23",
-    logoUrl: "/manus-storage/carder-logo_45d43ab5.jpg",
+    logoUrl: brandAssets.carder,
     sourceUrl: "https://www.paykool.hk/promotions/cardertoysnplace",
   },
   {
@@ -153,7 +169,7 @@ const offers: Offer[] = [
     highlight: "指定門店即減 HK$50",
     conditions: "在 App 領取 Card Buddies HK$50 優惠券；於指定門店單次簽帳滿 HK$1,000 使用。每次消費限一張，不適用於禮券及現金券。",
     validUntil: "2027.04.23",
-    logoUrl: "/manus-storage/card-buddies-logo_4a352a7e.jpg",
+    logoUrl: brandAssets.cardBuddies,
     sourceUrl: "https://www.paykool.hk/promotions/cardbuddies",
   },
   {
@@ -189,7 +205,7 @@ const offers: Offer[] = [
     highlight: "DEEN / ARSENAL 即享 95 折",
     conditions: "在 App 領取優惠券，於深水埗或觀塘指定門店購買 DEEN 或 ARSENAL 產品滿 HK$300，以 PayKool 卡付款。每次限一張，使用次數不限。",
     validUntil: "2027.03.24",
-    logoUrl: "/manus-storage/makersoul-logo_304ed715.jpg",
+    logoUrl: brandAssets.makersoul,
     sourceUrl: "https://www.paykool.hk/promotions/mbmakersoul",
   },
   {
@@ -239,7 +255,7 @@ const offers: Offer[] = [
     highlight: "首次購票即減 HK$20",
     conditions: "在 App 領取專屬連結並進入「巴士到站」微信小程序；首次購買永東跨境巴士單程票可用。每人一次，不適用於來回票、套票或其他路線。",
     validUntil: "2026.12.31",
-    logoUrl: "/manus-storage/bus-arrival-logo_54361110.jpg",
+    logoUrl: brandAssets.busArrival,
     sourceUrl: "https://www.paykool.hk/promotions/baygolungfung",
   },
   {
@@ -252,7 +268,7 @@ const offers: Offer[] = [
     highlight: "代幣優惠價，使用次數不限",
     conditions: "於香港任何冒險樂園分店以 PayKool 卡簽帳，可用優惠價 HK$600 購買 530 個代幣；不可與其他優惠同用。",
     validUntil: "2026.12.31",
-    logoUrl: "/manus-storage/jumpin-gym-logo_6f67761a.png",
+    logoUrl: brandAssets.jumpinGym,
     sourceUrl: "https://www.paykool.hk/promotions/jumpingym",
   },
   {
@@ -334,7 +350,7 @@ export default function Home() {
         <section className="portrait-stage" aria-label="PayKool 現有客戶商戶優惠展示">
           <header className="stage-header">
             <div className="stage-mark">
-              <img src="/manus-storage/paykool-official-logo_4655969b.png" alt="PayKool" />
+              <img src={brandAssets.paykoolLogo} alt="PayKool" />
               <span>PayKool</span>
             </div>
             <div className="stage-title">
@@ -349,7 +365,7 @@ export default function Home() {
           </header>
 
           <div className="stage-intro">
-            <span className="intro-action"><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> MEMBER ONLY</span>
+            <span className="intro-action"><img src={brandAssets.paykoolMark} alt="" /> MEMBER ONLY</span>
             <p><b>{offers.length}</b> 個商戶品牌 · 一觸即睇優惠</p>
             <span>PAYKOOL PERKS / 01—04</span>
           </div>
@@ -375,7 +391,7 @@ export default function Home() {
 
           <section className="logo-wall-section" aria-label="商戶標誌">
             <div className="logo-wall-heading">
-              <p><img src="/manus-storage/paykool-signage-mark_575f147f.png" alt="" /> {activeMeta.label}／{visibleOffers.length.toString().padStart(2, "0")} BRANDS</p>
+              <p><img src={brandAssets.paykoolMark} alt="" /> {activeMeta.label}／{visibleOffers.length.toString().padStart(2, "0")} BRANDS</p>
               <span><Ticket size={15} /> 向下捲動瀏覽 · 點選商戶睇詳情</span>
             </div>
             <div className="logo-wall">

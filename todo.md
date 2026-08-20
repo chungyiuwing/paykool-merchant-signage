@@ -1,10 +1,23 @@
 # 立式廣告機改版待辦
 
+## GitHub Pages Demo 準備
+
+- [ ] 檢查 Vite 建置設定，確保 GitHub Pages 子路徑可正確載入資產。
+- [ ] 加入 GitHub Actions Pages workflow，於主分支更新時建立 Pages 工件。
+- [ ] 推送 Pages-ready 設定至公開 GitHub 儲存庫。
+- [ ] 提供直接 GitHub Pages demo URL 及使用者於設定頁啟用的最後步驟。
+
+## GitHub Public 與 Pages Demo
+
+- [x] 將 `chungyiuwing/paykool-merchant-signage` 改為 Public。
+- [x] 提供公開 GitHub 儲存庫連結及 GitHub Pages 設定頁。
+- [x] 說明 GitHub Pages 需要使用者在 GitHub 介面確認啟用的最後步驟。
+
 ## GitHub 匯出與公開連結
 
-- [ ] 檢查目前可用的 GitHub 匯出方式及帳戶連接狀態。
-- [ ] 將最新專案版本匯出至使用者的 GitHub 儲存庫。
-- [ ] 提供 GitHub 儲存庫連結，並指引使用者在管理介面發布網站取得公開瀏覽網址。
+- [x] 檢查目前可用的 GitHub 匯出方式及帳戶連接狀態。
+- [x] 將最新專案版本匯出至使用者的 GitHub 儲存庫。
+- [x] 提供 GitHub 儲存庫連結，並指引使用者在管理介面發布網站取得公開瀏覽網址。
 
 ## 緊湊卡片與熱門品牌排序
 
